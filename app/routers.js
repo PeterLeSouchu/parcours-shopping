@@ -13,10 +13,10 @@ const isAdmin = require('../middlewares/isAdmin');
 const cartController = require('./controllers/cartController');
 
 // Page d'accueil
-router.get('/', catalogController.index);
+router.get('/', initCart, catalogController.index);
 
 // !! page /shop, vous travaillez dans ce controller
-router.get('/shop', catalogController.productsList);
+router.get('/shop', initCart, catalogController.productsList);
 
 // Affichage d'une catégorie et des produits associés
 router.get('/category/:id', catalogController.category);
@@ -30,7 +30,9 @@ router.get('/cart', [initCart, cartCalculations], cartController.index);
 // Page qui va permettre d'ajouter un produit au panier
 router.post('/cart/:productId', initCart, cartController.addOrUpdate);
 // Page qui va permettre d'enlever un produit du panier
-router.post('/cart/remove/:productId', initCart, cartController.remove);
+router.get('/cart/remove/:productId', initCart, cartController.remove);
+//Vider le panier
+router.get('/cart/destroy', initCart, cartController.destroy);
 
 // Affichage page formulaire de login
 router.get('/login', sessionController.index);
@@ -38,16 +40,16 @@ router.get('/login', sessionController.index);
 router.post('/login', sessionController.login);
 
 // !! Bonus : Logout, vous travaillez dans ce controller
-router.get('/logout', sessionController.logout);
+router.get('/logout', initCart, sessionController.logout);
 
 // Affichage page formulaire register
-router.get('/register', userController.index);
+router.get('/register', initCart, userController.index);
 // !! Bonus : Create user, si vous avez le temps, essayez de faire fonctionner ce formulaire.
 router.post('/register', userController.register);
 
 // user profile avec middleware
-router.get('/profile', auth, userController.show);
+router.get('/profile', initCart, auth, userController.show);
 // admin avec chained middlewares
-router.get('/dashboard', [auth, isAdmin], adminController.index);
+router.get('/dashboard', [auth, isAdmin, initCart], adminController.index);
 
 module.exports = router;
