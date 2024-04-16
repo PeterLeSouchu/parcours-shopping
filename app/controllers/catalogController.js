@@ -1,5 +1,8 @@
 const { Category, Product } = require('../models');
 
+const pretty = obj => JSON.stringify(obj, null, 2);
+const cpretty = obj => console.log(pretty(obj));
+
 const catalogController = {
     index: async (req, res) => {
         res.render('index');
@@ -22,8 +25,18 @@ const catalogController = {
     },
 
     category: async (req, res) => {
-        // todo, il faut récupérer la catégorie en fonction de l'id présent dans l'url et la passer à la vue
-        res.render('category');
+        //On récupère l'id de la categorie cliquée de la route paramétrée
+        const categoryId = req.params.id;
+        const category = await Category.findByPk(categoryId, {
+            include: [
+                {
+                    association: 'products',
+                },
+            ],
+        });
+        cpretty(category);
+
+        res.render('category', { category });
     },
 
     product: async (req, res) => {
