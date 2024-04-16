@@ -8,14 +8,13 @@ const catalogController = {
     productsList: async (req, res) => {
         try {
             // todo, ici il faudra les vrais produits et catégories de la db
-            const products = [];
-            const categories = [];
+            const products = await Product.findAll();
+            const categories = await Category.findAll();
 
-            res.render('shop', { 
+            res.render('shop', {
                 categories,
-                products 
+                products,
             });
-
         } catch (error) {
             console.log(error);
             res.status(500).send('Server Error');
