@@ -57,7 +57,8 @@ const sessionController = {
     },
 
     logout: (req, res) => {
-        // !! Votre code ici
+        //    On efface la session
+        req.session.destroy();
         res.redirect('/');
     },
 };
