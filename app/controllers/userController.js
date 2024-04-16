@@ -9,8 +9,8 @@ const userController = {
 
     register: async (req, res) => {
         try {
-            const { name, email, password, passwordConfirm } = req.body;
-            // !! votre code à partir d'ici
+            const { firstname, lastname, email, password, passwordConfirm } =
+                req.body;
             // On vérifie l'email avec le package npm email-validator
             emailValidator.validate(email);
 
@@ -44,7 +44,7 @@ const userController = {
 
             // On créer  l'utilisateur avec le role customer en l'inserant en BDD
             await User.create({
-                name,
+                name: `${firstname} ${lastname}`,
                 email,
                 password: passwordHashed,
                 role_id: role.id,
