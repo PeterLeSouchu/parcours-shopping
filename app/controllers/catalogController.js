@@ -1,5 +1,6 @@
 const { Category, Product } = require('../models');
 
+// Ces deux fonctions m'ont permis de voir le resultats des requetes sequelize pour mieux m'y retrouver :
 const pretty = obj => JSON.stringify(obj, null, 2);
 const cpretty = obj => console.log(pretty(obj));
 
@@ -34,14 +35,16 @@ const catalogController = {
                 },
             ],
         });
-        cpretty(category);
 
         res.render('category', { category });
     },
 
     product: async (req, res) => {
-        // todo, récupérer le produit demandé en base de données.
-        res.render('product');
+        //On récupère l'id du produit cliqué de la route paramétrée
+        const productId = req.params.id;
+        const product = await Product.findByPk(productId);
+
+        res.render('product', { product });
     },
 
     cart: (req, res) => {
