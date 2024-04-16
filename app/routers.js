@@ -19,10 +19,10 @@ router.get('/', initCart, catalogController.index);
 router.get('/shop', initCart, catalogController.productsList);
 
 // Affichage d'une catégorie et des produits associés
-router.get('/category/:id', catalogController.category);
+router.get('/category/:id', initCart, catalogController.category);
 
 // Page de détail d'un produit
-router.get('/product/:id', catalogController.product);
+router.get('/product/:id', initCart, catalogController.product);
 
 //Page du panier
 // Ces routes nes sont pas terminées
@@ -35,7 +35,7 @@ router.get('/cart/remove/:productId', initCart, cartController.remove);
 router.get('/cart/destroy', initCart, cartController.destroy);
 
 // Affichage page formulaire de login
-router.get('/login', sessionController.index);
+router.get('/login', initCart, sessionController.index);
 //!! Démarre une session user si user existe, vous travaillez dans ce controller
 router.post('/login', sessionController.login);
 
@@ -48,7 +48,7 @@ router.get('/register', initCart, userController.index);
 router.post('/register', userController.register);
 
 // user profile avec middleware
-router.get('/profile', initCart, auth, userController.show);
+router.get('/profile', [initCart, auth], userController.show);
 // admin avec chained middlewares
 router.get('/dashboard', [auth, isAdmin, initCart], adminController.index);
 
