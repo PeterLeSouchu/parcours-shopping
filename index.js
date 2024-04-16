@@ -18,7 +18,7 @@ app.use(
     session({
         saveUninitialized: true,
         resave: true,
-        secret: 'Un secret pour signer les id de sessions',
+        secret: process.env.SESSION_SECRET,
     })
 );
 app.use(loadUserToLocals);
