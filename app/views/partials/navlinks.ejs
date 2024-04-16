@@ -11,26 +11,33 @@
         <li>
             <a href="/login">Sign in</a>
         </li>
-    <% } else { %>
-        <li>
-            <% if (locals.user.role.name === 'admin') { %>
-                <a href="/dashboard">Admin</a>
-            <% } else { %>
-                <a href="/profile">Votre profil</a>
-            <% }  %>
-        </li>
-        <li>
-            <a href="/logout"> Logout </a>
-        </li>
-    <% }  %>
+        <% } else { %>
+            <li>
+                <% if (locals.user.role.name==='admin' ) { %>
+                    <a href="/dashboard">Admin</a>
+                    <% } else { %>
+                        <a href="/profile">Votre profil</a>
+                        <% } %>
+            </li>
+            <li>
+                <a href="/logout"> Logout </a>
+            </li>
+            <% } %>
 
 
-    <li>
-        <a href="#!">
-            Panier
-            <span class="cart-count">
-                <span><%= 0 %> </span>
-            </span>
-        </a>
-    </li>
+                <li>
+                    <a href="/cart">
+                        Panier
+                        <span class="cart-count">
+                            <span>
+                                <% if (locals.cart) { %>
+                                    <%= locals.cart.products.length %>
+
+                                        <% } else { %>
+                                            0
+                                            <% } %>
+                            </span>
+                        </span>
+                    </a>
+                </li>
 </ul>

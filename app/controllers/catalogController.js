@@ -1,11 +1,12 @@
 const { Category, Product } = require('../models');
 
-// Ces deux fonctions m'ont permis de voir le resultats des requetes sequelize pour mieux m'y retrouver :
-const pretty = obj => JSON.stringify(obj, null, 2);
-const cpretty = obj => console.log(pretty(obj));
+// Utiliser  la fonction cpretty pour voir le resultat de la requete sequilize (permet de mieux s'y retrouver) :
+// const pretty = obj => JSON.stringify(obj, null, 2);
+// const cpretty = obj => console.log(pretty(obj));
 
 const catalogController = {
     index: async (req, res) => {
+        console.log(req.session);
         res.render('index');
     },
 
@@ -27,7 +28,7 @@ const catalogController = {
 
     category: async (req, res) => {
         //On récupère l'id de la categorie cliquée de la route paramétrée
-        const categoryId = req.params.id;
+        const categoryId = parseInt(req.params.id);
         const category = await Category.findByPk(categoryId, {
             include: [
                 {
@@ -41,7 +42,7 @@ const catalogController = {
 
     product: async (req, res) => {
         //On récupère l'id du produit cliqué de la route paramétrée
-        const productId = req.params.id;
+        const productId = parseInt(req.params.id);
         const product = await Product.findByPk(productId);
 
         res.render('product', { product });

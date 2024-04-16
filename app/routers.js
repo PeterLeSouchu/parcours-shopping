@@ -6,8 +6,11 @@ const sessionController = require('./controllers/sessionController');
 const userController = require('./controllers/userController');
 const adminController = require('./controllers/adminController');
 
+const initCart = require('../middlewares/initCart');
+const cartCalculations = require('../middlewares/cartCalculations');
 const auth = require('../middlewares/auth');
 const isAdmin = require('../middlewares/isAdmin');
+const cartController = require('./controllers/cartController');
 
 // Page d'accueil
 router.get('/', catalogController.index);
@@ -15,11 +18,19 @@ router.get('/', catalogController.index);
 // !! page /shop, vous travaillez dans ce controller
 router.get('/shop', catalogController.productsList);
 
-// Affichage d'une catégorie et des produits associés 
+// Affichage d'une catégorie et des produits associés
 router.get('/category/:id', catalogController.category);
 
 // Page de détail d'un produit
 router.get('/product/:id', catalogController.product);
+
+//Page du panier
+// Ces routes nes sont pas terminées
+router.get('/cart', [initCart, cartCalculations], cartController.index);
+// Page qui va permettre d'ajouter un produit au panier
+router.post('/cart/:productId', initCart, cartController.addOrUpdate);
+// Page qui va permettre d'enlever un produit du panier
+router.post('/cart/remove/:productId', initCart, cartController.remove);
 
 // Affichage page formulaire de login
 router.get('/login', sessionController.index);
