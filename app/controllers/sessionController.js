@@ -9,21 +9,44 @@ const sessionController = {
     login: async (req, res) => {
         try {
             const { email, password } = req.body;
-            // !! Votre code à partir d'ici
 
-            // On récupère user avec le role
-            // Est-ce que l'utilisateur existe en BDD ?
-            // Sélectionner user avec email et inclure le role, si on ne le trouve pas :
-            //      on envoie un message d'erreur dans un objet:  {error: "Utilisateur ou mot de passe incorrect"} et on render `login` en lui passant l'erreur
-            // Sinon on continue.
+            // /On regarde si notre utilisateur existe en BDD
+            const user = await User.findOne({
+                where: {
+                    email: email,
+                },
+                include: {
+                    association: 'role',
+                },
+            });
 
-            // Le mot de passe est il correct ?
-            // On compare le mots de passe du formulaire avec celui de l'utilisateur
-            //      Si le mot de passe est incorrect : on envoie un message d'erreur dans un objet:  {error: "Utilisateur ou mot de passe incorrect"} et on render `login` en lui passant l'erreur
+            // Si l'utilisateur n'est pas dans la BDD on renvoie vers la page login avec un message d'erreur
+            if (!user) {
+                res.render('login', {
+                    error: 'Utilisateur ou mot de passe incorrect',
+                });
+                return;
+            }
+
+            // On compare le MDP de l'utilisateur avec celui de la BDD
+            const passwordMatched = await bcrypt.compare(
+                password,
+                user.password
+            );
+
+            // Si le MDP ne correspond pas on renvoie vers la page login avec un message d'erreur
+            if (!passwordMatched) {
+                res.render('login', {
+                    error: 'Utilisateur ou mot de passe incorrect',
+                });
+                return;
+            }
 
             // On ajoute user a la session
+            req.session.user = user;
 
             // On enlève le mot de passe de la session.
+            req.session.user.password = undefined;
 
             // !! Ne pas modifier cette ligne
             res.redirect('/');
