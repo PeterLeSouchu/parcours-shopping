@@ -13,7 +13,6 @@ const loadUserToLocals = require('./middlewares/loadUserToLocals');
 // Body parser
 app.use(express.urlencoded({ extended: true }));
 
-// Charger les données de la sessions sur `req.session` et `res.locals`
 app.use(
     session({
         saveUninitialized: true,
@@ -30,13 +29,12 @@ app.set('views', './app/views');
 // Statically served files
 app.use(express.static(path.join(__dirname, './assets')));
 
-// Nos Routes
 app.use(router);
 
 // middleware 404
 app.use(errorHandlers.notFound);
 
-// middleware formatage et affichage des erreurs
+// middleware formating and errors display
 app.use(errorHandlers.developmentErrors);
 
 const port = process.env.PORT || 3000;

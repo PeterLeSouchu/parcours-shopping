@@ -20,14 +20,14 @@ const cartController = {
 
         if (found) {
             found['qty'] += 1;
-            req.session.cart.products = productsInCart.map(prod =>
+            req.session.cart.products = req.session.cart.products.map(prod =>
                 prod.id === found.id ? found : prod
             );
         } else {
             productToAdd.dataValues['qty'] = 1;
             req.session.cart.products.push(productToAdd);
         }
-
+        console.log(req.session);
         res.redirect('/shop');
     },
 

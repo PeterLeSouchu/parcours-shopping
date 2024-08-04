@@ -1,11 +1,13 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../database');
-const Role = require('./Role.js');
 
+// Define class User and extend our class with sequelize's model class
 class User extends Sequelize.Model {}
 
+//Define columns of our model
 User.init(
     {
+        // Write column "name" with its type
         name: {
             type: DataTypes.STRING,
             allowNull: true,
@@ -24,11 +26,11 @@ User.init(
         },
     },
     {
+        // To connect to our client
         sequelize,
+        // Name of our table
         tableName: 'users',
     }
 );
-
-//User.belongsTo(Role(), { foreignKey: 'role_id' });
 
 module.exports = User;

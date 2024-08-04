@@ -27,7 +27,6 @@ const catalogController = {
     },
 
     category: async (req, res) => {
-        //On récupère l'id de la categorie cliquée de la route paramétrée
         const categoryId = parseInt(req.params.id);
         const category = await Category.findByPk(categoryId, {
             include: [

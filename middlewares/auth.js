@@ -1,10 +1,11 @@
 const auth = (req, res, next) => {
+    // When user is connected, we put him in session, so here we can check if session is available
     if (req.session.user) {
-        // On passe la main au middleware suivant si le user est bien loggé (ie, dans la session)
+        // If it's true we next
         return next();
     }
 
-    // Sinon, on passe la main au middleware d'erreur (errorHandlers) qui s'occupe d'afficher l'erreur appropriée
+    // Else we pass control to the error middleware
     req.status = 403;
     return next(new Error('Forbidden'));
 };

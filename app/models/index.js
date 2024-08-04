@@ -5,13 +5,11 @@ const Role = require('./Role');
 
 Category.hasMany(Product, {
     foreignKey: 'category_id',
-    //products avec un 's' car plusieurs produits
-    as: 'products',
+    as: 'products', // name of relation that we will use in controllers to make joins
 });
 
 Product.belongsTo(Category, {
     foreignKey: 'category_id',
-    //Category au singulier car une seule possible
     as: 'category',
 });
 
