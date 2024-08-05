@@ -244,6 +244,7 @@ h2,
 h1 {
     font-size: 38px;
     line-height: 1.2;
+    color: pink;
 }
 
 h1.stylish-heading {
