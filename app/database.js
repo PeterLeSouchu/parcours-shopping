@@ -4,7 +4,6 @@ const sequelize = new Sequelize(process.env.PG_URL, {
     dialectOptions: {
         ssl: {
             require: true,
-            rejectUnauthorized: false, // Utilisé pour bypasser le certificat non sécurisé, si nécessaire
         },
     },
     // logging false pour ne pas polluer le terminal avec les requêtes
